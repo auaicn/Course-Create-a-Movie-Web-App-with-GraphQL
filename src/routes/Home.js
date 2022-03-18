@@ -1,4 +1,5 @@
 import { gql, useQuery } from "@apollo/client";
+import { argsToArgsConfig } from "graphql/type/definition";
 
 const GET_MOVIES = gql`
   {
@@ -11,8 +12,13 @@ const GET_MOVIES = gql`
 
 const Home = () => {
   const { loading, error, data } = useQuery(GET_MOVIES);
-  console.log(loading, error, data);
-  return <h1>home</h1>;
+  if (loading) {
+    return "loading...";
+  }
+
+  if (data && data.movies) {
+    return data.movies.map((movie) => <h1 key={movie.id}>{movie.id}</h1>);
+  }
 };
 
 export default Home;
