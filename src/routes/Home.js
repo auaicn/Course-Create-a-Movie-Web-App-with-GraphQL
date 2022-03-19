@@ -27,7 +27,7 @@ const Title = styled.h1`
 `;
 
 const Subtitle = styled.h3`
-  font-size: 35px;
+  font-size: 22px;
 `;
 
 const Loading = styled.div`
@@ -58,7 +58,7 @@ const GET_MOVIES = gql`
       rating
       genres
       runtime
-      summary
+      description_full
     }
   }
 `;
@@ -69,8 +69,8 @@ const Home = () => {
   return (
     <Container>
       <Header>
-        <Title>Apollo 2020</Title>
-        <Subtitle>I love GraphQL</Subtitle>
+        <Title>yts movies</Title>
+        <Subtitle>Developed using graphQL & React </Subtitle>
       </Header>
       {loading && <Loading>Loading...</Loading>}
       {!loading && data.movies && (

@@ -10,44 +10,95 @@ const GET_MOVIE = gql`
       year
       genres
       rating
-      summary
+      description_full
       medium_cover_image
     }
   }
 `;
 
-const Loading = styled.div``;
-const Container = styled.div``;
-const Subtitle = styled.div``;
-const Header = styled.div``;
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  background-image: linear-gradient(#5f8ae0, #345698);
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Loading = styled.h1`
+  font-weight: 300;
+  font-size: 40px;
+  color: white;
+`;
+
+const Poster = styled.div`
+  display: flex;
+  width: 60%;
+  justify-contents: space-evenly;
+  align-items: start;
+`;
+
+const Column = styled.div`
+  display: flex;
+  color: white;
+  flex-direction: column;
+  margin-left: 44px;
+  position: relative;
+  top: 20px;
+`;
+
+const Title = styled.h1`
+  font-size: 40px;
+  font-weight: bolder;
+  margin-bottom: 20px;
+`;
+
+const Information = styled.div`
+  margin-top: 10px;
+`;
+
+const Genre = styled.span`
+  font-weight: 200;
+`;
+
+const Summary = styled.h3`
+  font-weight: 400;
+`;
 
 const Detail = () => {
   const { id } = useParams();
 
-  // console.log(typeof id);
   const { loading, data } = useQuery(GET_MOVIE, {
     variables: {
       id: Number(id),
     },
   });
 
-  if (loading) {
-    console.log("loading");
-  } else {
-    console.log(id);
-    console.log(data);
-  }
-
   return (
-    <div>
-      <Container>
-        <Header>header</Header>
-        <Subtitle>subtitle</Subtitle>
-      </Container>
-
-      {loading && <Loading>loading...</Loading>}
-      {!loading && data && data.movie && <h1>movie</h1>}
-    </div>
+    <Container>
+      {loading && <Loading>Loading...</Loading>}
+      {!loading && data && data.movie && (
+        <Poster>
+          <img src={data.movie.medium_cover_image} alt={data.movie.title + " image"} />
+          <Column>
+            <Title>
+              {data.movie.title} ({data.movie.year})
+            </Title>
+            <Information>
+              <span> Score </span> {data.movie.rating} / 10
+            </Information>
+            <Information>
+              <span> Genres </span>
+              <Genre> {data.movie.genres.join(", ")}</Genre>
+            </Information>
+            <Information>
+              <h1> Summary </h1>
+              <Summary>{data.movie.description_full}</Summary>
+            </Information>
+          </Column>
+        </Poster>
+      )}
+    </Container>
   );
 };
 
