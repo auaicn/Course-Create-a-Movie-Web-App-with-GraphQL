@@ -41,7 +41,9 @@ const Movies = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-gap: 25px;
+  gap: 25px;
   width: 60%;
+  justify-items: center;
   position: relative;
   top: -50px;
 `;
@@ -51,6 +53,12 @@ const GET_MOVIES = gql`
     movies {
       id
       medium_cover_image
+      title
+      year
+      rating
+      genres
+      runtime
+      summary
     }
   }
 `;
@@ -65,7 +73,22 @@ const Home = () => {
         <Subtitle>I love GraphQL</Subtitle>
       </Header>
       {loading && <Loading>Loading...</Loading>}
-      {!loading && data.movies && data.movies.map((m) => <Movie key={m.id} id={m.id} />)}
+      {!loading && data.movies && (
+        <Movies>
+          {data.movies.map((m) => (
+            <Movie
+              key={m.id}
+              id={m.id}
+              title={m.title}
+              year={m.year}
+              rating={m.rating}
+              runtime={m.runtime}
+              genres={m.genres}
+              medium_cover_image={m.medium_cover_image}
+            />
+          ))}
+        </Movies>
+      )}
     </Container>
   );
 };

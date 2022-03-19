@@ -1,34 +1,54 @@
 import { gql, useQuery } from "@apollo/client";
-import Movie from "../components/Movie.js";
+import { useParams } from "react-router-dom";
+import styled from "styled-components";
 
 const GET_MOVIE = gql`
-  {
+  query getMovie($id: Int!) {
     movie(id: $id) {
       id
+      title
+      year
+      genres
+      rating
+      summary
+      medium_cover_image
     }
   }
 `;
 
-const Detail = (id) => {
-  const { loading, error, data } = useQuery(GET_MOVIE, {
+const Loading = styled.div``;
+const Container = styled.div``;
+const Subtitle = styled.div``;
+const Header = styled.div``;
+
+const Detail = () => {
+  const { id } = useParams();
+
+  // console.log(typeof id);
+  const { loading, data } = useQuery(GET_MOVIE, {
     variables: {
-      id: id,
+      id: Number(id),
     },
   });
 
   if (loading) {
-    return "loading...";
+    console.log("loading");
+  } else {
+    console.log(id);
+    console.log(data);
   }
 
-  if (data && data.movie) {
-    return <h1>movie.id</h1>;
-  }
+  return (
+    <div>
+      <Container>
+        <Header>header</Header>
+        <Subtitle>subtitle</Subtitle>
+      </Container>
 
-  console.log(error);
-
-  return <h3>error</h3>;
-
-  return <Movie id={id} />;
+      {loading && <Loading>loading...</Loading>}
+      {!loading && data && data.movie && <h1>movie</h1>}
+    </div>
+  );
 };
 
 export default Detail;

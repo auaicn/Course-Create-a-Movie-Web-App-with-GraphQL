@@ -1,16 +1,35 @@
-const Movie = ({ id }) => {
-  console.log(id);
+import { Link } from "react-router-dom";
+import styled from "styled-components";
 
-  return <h3>{id} </h3>;
+const Genre = styled.h3`
+  margin-top: 5px;
+  font-weight: 200;
+`;
 
-  // id: Int!
-  // title: String!
-  // year: Int!
-  // rating: Float!
-  // runtime: Int!
-  // genres: [String]!
-  // summary: String!
-  // medium_cover_image: String!
+const Title = styled.h3`
+  font-weight: 900;
+  margin-top: 10px;
+`;
+
+const Information = styled.h3`
+  margin-top: 10px;
+`;
+
+const Movie = ({ id, title, runtime, year, rating, genres, medium_cover_image }) => {
+  return (
+    <div>
+      <Link to={`/${id}`}>
+        <img src={medium_cover_image} alt="" />
+      </Link>
+      <Title>
+        {title} ({year})
+      </Title>
+      <Information>
+        {runtime} min, {rating}
+      </Information>
+      <Genre>{genres.join(", ")}</Genre>
+    </div>
+  );
 };
 
 export default Movie;
