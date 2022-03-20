@@ -31,11 +31,19 @@ const Loading = styled.h1`
   color: white;
 `;
 
-const Poster = styled.div`
+const Contents = styled.div`
   display: flex;
   width: 60%;
   justify-contents: space-evenly;
   align-items: start;
+`;
+
+const Poster = styled.div`
+  background-image: url(${(props) => props.bg});
+  width: 200%;
+  aspect-ratio: 9 / 16;
+  background-size: cover;
+  background-position: center center;
 `;
 
 const Column = styled.div`
@@ -78,8 +86,8 @@ const Detail = () => {
     <Container>
       {loading && <Loading>Loading...</Loading>}
       {!loading && data && data.movie && (
-        <Poster>
-          <img src={data.movie.medium_cover_image} alt={data.movie.title + " image"} />
+        <Contents>
+          <Poster bg={data.movie.medium_cover_image} />
           <Column>
             <Title>
               {data.movie.title} ({data.movie.year})
@@ -96,7 +104,7 @@ const Detail = () => {
               <Summary>{data.movie.description_full}</Summary>
             </Information>
           </Column>
-        </Poster>
+        </Contents>
       )}
     </Container>
   );
